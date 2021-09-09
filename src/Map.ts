@@ -3,6 +3,7 @@ interface Mappable {
     lat: number;
     lng: number;
   };
+  markerContent(): string;
 }
 
 export class Map {
@@ -18,13 +19,21 @@ export class Map {
     });
   }
 
-  addMarker(marker: Mappable): void {
-    new google.maps.Marker({
+  addMarker(mappableItem: Mappable): void {
+    const marker = new google.maps.Marker({
       map: this.googleMap,
       position: {
-        lat: marker.location.lat,
-        lng: marker.location.lng,
+        lat: mappableItem.location.lat,
+        lng: mappableItem.location.lng,
       },
+    });
+
+    const infoWindow = new google.maps.InfoWindow({
+      content: mappableItem.markerContent(),
+    });
+
+    marker.addListener('click', () => {
+      infoWindow.open(this.googleMap, marker);
     });
   }
 }
