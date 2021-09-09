@@ -1,8 +1,7 @@
+export interface Location extends google.maps.LatLngLiteral {}
+
 export interface Mappable {
-  location: {
-    lat: number;
-    lng: number;
-  };
+  location: Location;
   markerContent(): string;
 }
 
